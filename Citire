@@ -1,0 +1,44 @@
+//citire
+
+#include<stdio.h>
+#include<conio.h>
+
+typedef struct
+{
+	char nr[8],marca[20];
+	int an, km;
+	float valoare;
+}Masina;
+
+int main()
+{
+	FILE* f;
+	Masina m;
+	int cod;
+	char nume[20];
+	printf("Numele fisierului: ");
+	scanf("%s", &nume);
+	f = fopen(nume, "wb");
+	cod = 0;
+	printf("Cod: ");
+	scanf("%d", &cod);
+	while (!feof(stdin))
+	{
+		printf("Numar de inmatriculare: ");
+		scanf("%s", &m.nr);
+		printf("Marca: ");
+		scanf("%s", &m.marca);
+		printf("Anul: ");
+		scanf("%d", &m.an);
+		printf("Kilometraj: ");
+		scanf("%d", &m.km);
+		printf("Valoare: ");
+		scanf("%f", &m.valoare);
+		fwrite(&m, sizeof(Masina), 1, f);
+		printf("Cod nou: ");
+		scanf("%d", &cod);
+	}
+	fclose(f);
+	_getch();
+	return 0;
+}
