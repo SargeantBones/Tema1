@@ -1,0 +1,59 @@
+//modificare masina cu anume nr
+
+#include<stdio.h>
+#include<conio.h>
+#include <string.h>
+typedef struct
+{
+	char nr[8], marca[20];
+	int an, km;
+	float valoare;
+}Masina;
+
+int main()
+{
+	FILE* f;
+	Masina m;
+	int n, ct = 0,rezultat;
+	char numar[20];
+	f = fopen("Masini.dat", "rb+");
+	printf("Numar de inmatriculare: ");
+	scanf("%s", &numar);
+	
+	while (!feof(stdin))
+	{
+		fseek(f, 0, SEEK_SET);//start de fisier
+		fread(&m, sizeof(Masina), 1, f);
+		while (!feof(f))
+		{
+			
+			rezultat = strcmp(numar, m.nr);
+			printf("\n%s", m.nr);
+			printf("\n%d", rezultat);
+			if (rezultat == 0)
+			{
+				printf("\nNoua valoare: ");
+				fseek(f, ftell(f) - sizeof(Masina), SEEK_SET);
+				scanf("%f", &m.valoare);
+				fwrite(&m, sizeof(Masina), 1, f);
+				fseek(f, 0, 1);
+				ct++;
+			}
+			fread(&m, sizeof(Masina), 1, f);
+		}
+		if (ct == 0)printf("\nNu exista masini cu acel numar.");
+		printf("\nNumar de inmatriculare: ");
+		scanf("%s", &numar);
+	}
+	
+
+	while (!feof(f))
+	{
+		fread(&m, sizeof(Masina), 1, f);
+		printf("\n%s", m.nr);
+	}
+
+	fclose(f);
+	_getch();
+	return 0;
+}
