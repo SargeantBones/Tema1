@@ -1,0 +1,33 @@
+//listarea masinilor mai vechi de 10 ani
+
+#include<stdio.h>
+#include<conio.h>
+typedef struct
+{
+	char nr[8], marca[20];
+	int an, km;
+	float valoare;
+}Masina;
+int main()
+{
+	FILE* f, * g;
+	Masina m;
+	g = NULL;
+	f = fopen("Masini.dat", "rb");
+	g = fopen("Raport2.txt", "w");
+	fprintf(g, "\n %3s Nr.matricol    Marca     Anul     Kilometraj     Valoare", "");
+	while (!feof(f))
+	{
+		fread(&m, sizeof(Masina), 1, f);
+		if (2023 - m.an > 10)
+		{
+			fprintf(g, "\n");
+			fprintf(g, "%10s %12s %8d %10d %15.2f", m.nr, m.marca, m.an, m.km, m.valoare);
+		}
+		fread(&m, sizeof(Masina), 1, f);
+	}
+	fclose(f);
+	fclose(g);
+	_getch();
+	return 0;
+}
