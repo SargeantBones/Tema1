@@ -1,0 +1,40 @@
+//listare
+
+#include<stdio.h>
+#include<conio.h>
+
+typedef struct
+{
+	char nr[8], marca[20];
+	int an, km;
+	float valoare;
+}Masina;
+
+int main()
+{
+	FILE* f, *g;
+	Masina m;
+	int n;
+	int cod;
+	char nume[20];
+	g = NULL;
+	f = fopen("Masini.dat", "rb");
+	if (!f)printf("Fisierul nu a putut fi gasit");
+	else
+	{
+		g = fopen("Raport.txt", "w");
+		fprintf(g, "\n %3s Nr.matricol    Marca     Anul     Kilometraj     Valoare", "");
+		n = 0;
+		while (!feof(f))
+		{
+			fread(&m, sizeof(Masina), 1, f);
+			fprintf(g, "\n");
+			fprintf(g, "%d %10s %12s %8d %10d %15.2f", ++n, m.nr, m.marca, m.an, m.km, m.valoare);
+			fread(&m, sizeof(Masina), 1, f);
+		}
+	}
+	fclose(f);
+	fclose(g);
+	_getch();
+	return 0;
+}
